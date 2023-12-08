@@ -67,6 +67,7 @@
 #include "ttranslate.h"
 #include "signal_list.h"
 #include "gw-time-display.h"
+#include "gw-vcd-file.h"
 
 #include "tcl_helper.h"
 #if defined(HAVE_LIBTCL)
@@ -1714,7 +1715,7 @@ loader_check_head:
 
                 switch (GLOBALS->is_lx2) {
                     case LXT2_IS_VLIST:
-                        vcd_import_masked(GLOBALS->vcd_file);
+                        gw_vcd_file_import_masked(GW_VCD_FILE(GLOBALS->dump_file));
                         break;
                     case LXT2_IS_FST:
                         fst_import_masked(GLOBALS->fst_file);
