@@ -1296,6 +1296,7 @@ void facsplit(char *str, int *len, int *number)
  * process ints larger than two billion anyway...
  */
 
+#if 0
 #ifdef WAVE_USE_SIGCMP_INFINITE_PRECISION
 #if __STDC_VERSION__ < 199901L
 inline
@@ -1405,6 +1406,54 @@ inline
                 return ((int)c1 - (int)c2);
         }
     }
+}
+#endif
+#else
+
+unsigned long my_strtoul(char *s, char **ep, int base)
+{
+    unsigned long res = 0;
+    while (1) {
+        char c = *s;
+        if (c == '\0')
+            goto end;
+        s++;
+        c -= '0';
+        if (c > 9) {
+            // no support for base > 10
+            goto end;
+        }
+        res = res * base + c;
+    }
+end:
+    if (ep)
+        *ep = s;
+    return res;
+}
+
+static inline int sigcmp_2(char *s1, char *s2) {
+    char *i1, *i2;
+    int len1, len2;
+    unsigned long n1, n2;
+
+    do {
+        i1 = strpbrk(s1, "0123456789");
+        i2 = strpbrk(s2, "0123456789");
+        if (!i1 || !i2)
+            return strcmp(s1, s2);
+        len1 = i1-s1;
+        len2 = i2-s2;
+        int cmp_prefix = strncmp(s1, s2, len1 > len2 ? len1 : len2); // maximum
+        if (len1 != len2 || cmp_prefix != 0)
+            return cmp_prefix;
+        s1 = i1;
+        s2 = i2;
+
+        n1 = my_strtoul(s1, &s1, 10);
+        n2 = my_strtoul(s2, &s2, 10);
+        if (n1 != n2)
+            return n1 - n2;
+    } while (1);
 }
 #endif
 
