@@ -323,14 +323,52 @@ static void recurse_tree_fix_from_whichcache(GhwLoader *self, GwTree *t)
     }
 }
 
+#define INCINERATE_STACK_LOCAL 65536
+
 static void incinerate_whichcache_tree(ghw_Tree *t)
 {
-    if (t->left)
-        incinerate_whichcache_tree(t->left);
-    if (t->right)
-        incinerate_whichcache_tree(t->right);
+    // We allocate a local stack to reduce the recursion depth of this 
+    // function. Otherwise we can quickly run out of stack memory for
+    // moderate-size ghw files.
+    // Once the local stack is full, we fall back to a recursion.
+    // A nicer way to implement this would e.g. be using a C++ stack.
+    ghw_Tree** t_stack = malloc_2(INCINERATE_STACK_LOCAL * sizeof(ghw_Tree *));
+    int cnt = 1;
+    t_stack[0]  = t;
 
-    free_2(t);
+    while (cnt > 0)
+    {
+        ghw_Tree *current = t_stack[cnt-1];
+        if (cnt >= INCINERATE_STACK_LOCAL && (current->left || current->right)) {
+            // Local stack is full -> recurse
+            incinerate_whichcache_tree(current);
+            cnt--;
+            if (cnt >= 1 && t_stack[cnt-1]->left == current)
+                t_stack[cnt-1]->left = 0;
+            else if (cnt >= 1 && t_stack[cnt-1]->right == current)
+                t_stack[cnt-1]->right = 0;
+        }
+        else if (current->left) {
+            // push left
+            t_stack[cnt] = current->left;
+            cnt++;
+        }
+        else if (current->right) {
+            // push right
+            t_stack[cnt] = current->right;
+            cnt++;
+        }
+        else {
+            // No children -> free node, pop
+            free_2(current);
+            cnt--;
+            if (cnt >= 1 && t_stack[cnt-1]->left == current)
+                t_stack[cnt-1]->left = 0;
+            else if (cnt >= 1 && t_stack[cnt-1]->right == current)
+                t_stack[cnt-1]->right = 0;
+        }
+    }
+    free_2(t_stack);
 }
 
 /*
