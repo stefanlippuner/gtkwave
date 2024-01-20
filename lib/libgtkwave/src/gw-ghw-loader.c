@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <glib.h>
 #include <libghw.h>
 #include <gtkwave.h>
 #include "gw-ghw-loader.h"
@@ -315,12 +316,38 @@ static void recurse_tree_fix_from_whichcache(GwGhwLoader *self, GwTreeNode *t)
 
 static void incinerate_whichcache_tree(ghw_Tree *t)
 {
-    if (t->left)
-        incinerate_whichcache_tree(t->left);
-    if (t->right)
-        incinerate_whichcache_tree(t->right);
+    // Use a dynamic GArray to store the pending nodes. In some cases, the
+    // trees can be very deep, so we can't use explicit recursion here.
+    GArray *pending_nodes;
+    pending_nodes = g_array_new(FALSE, FALSE, sizeof (ghw_Tree*));
 
-    g_free(t);
+    g_array_append_val(pending_nodes, t);
+    size_t n_pending = 1;
+
+    while (n_pending > 0)
+    {
+        ghw_Tree *p_current = g_array_index(pending_nodes, ghw_Tree *, n_pending-1);
+        ghw_Tree current = *p_current; // store a temporary copy to use after free
+
+        // Free the current node
+        g_free(p_current);
+        g_array_remove_index(pending_nodes, n_pending-1);
+        n_pending--;
+
+        // Process the children of this node next
+        if (current.left)
+        {
+            g_array_append_val(pending_nodes, current.left);
+            n_pending++;
+        }
+        if (current.right)
+        {
+            g_array_append_val(pending_nodes, current.right);
+            n_pending++;
+        }
+    }
+
+    g_array_free(pending_nodes, TRUE);
 }
 
 /*
