@@ -13,7 +13,7 @@ helpers = [
 ]
 
 foreach helper : helpers
-    sources = [helper + '.c']
+    sources = [helper + '.cpp']
     dependencies = [
         libgtkwave_dep,
     ]
@@ -22,13 +22,13 @@ foreach helper : helpers
         sources += '../../contrib/rtlbrowse/jrb.c'
     endif
     if helper in ['vcd2lxt']
-        sources += 'v2l_debug.c'
+        sources += 'v2l_debug.cpp'
     endif
     if helper in ['vcd2lxt2', 'vcd2vzt']
-        sources += 'v2l_debug.c'
+        sources += 'v2l_debug.cpp'
     endif
     if helper in ['lxt2vcd', 'vzt2vcd']
-        sources += 'scopenav.c'
+        sources += 'scopenav.cpp'
     endif
 
     if helper.contains('lxt')

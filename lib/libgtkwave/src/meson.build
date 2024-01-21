@@ -1,25 +1,25 @@
 libgtkwave_public_sources = [
-    'gw-bit.c',
-    'gw-blackout-regions.c',
-    'gw-color-theme.c',
-    'gw-color.c',
-    'gw-dump-file-builder.c',
-    'gw-dump-file.c',
-    'gw-enum-filter-list.c',
-    'gw-enum-filter.c',
-    'gw-facs.c',
-    'gw-ghw-file.c',
-    'gw-ghw-loader.c',
-    'gw-hist-ent-factory.c',
-    'gw-loader.c',
-    'gw-marker.c',
-    'gw-named-markers.c',
-    'gw-project.c',
-    'gw-stems.c',
-    'gw-time-range.c',
-    'gw-time.c',
-    'gw-tree.c',
-    'gw-var-enums.c',
+    'gw-bit.cpp',
+    'gw-blackout-regions.cpp',
+    'gw-color-theme.cpp',
+    'gw-color.cpp',
+    'gw-dump-file-builder.cpp',
+    'gw-dump-file.cpp',
+    'gw-enum-filter-list.cpp',
+    'gw-enum-filter.cpp',
+    'gw-facs.cpp',
+    'gw-ghw-file.cpp',
+    'gw-ghw-loader.cpp',
+    'gw-hist-ent-factory.cpp',
+    'gw-loader.cpp',
+    'gw-marker.cpp',
+    'gw-named-markers.cpp',
+    'gw-project.cpp',
+    'gw-stems.cpp',
+    'gw-time-range.cpp',
+    'gw-time.cpp',
+    'gw-tree.cpp',
+    'gw-var-enums.cpp',
 ]
 
 libgtkwave_public_headers = [
@@ -55,7 +55,7 @@ libgtkwave_public_headers = [
 ]
 
 libgtkwave_private_sources = [
-    'gw-util.c',
+    'gw-util.cpp',
 ]
 
 libgtkwave_dependencies = [
@@ -66,8 +66,8 @@ libgtkwave_dependencies = [
 
 if get_option('experimental_plugin_support')
     libgtkwave_public_sources += [
-        'gw-plugin-manager.c',
-        'gw-plugin.c',
+        'gw-plugin-manager.cpp',
+        'gw-plugin.cpp',
     ]
 
     libgtkwave_public_headers += [

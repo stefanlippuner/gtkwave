@@ -5,7 +5,7 @@ install_data(
     'des.fst',
     'transaction.fst',
     'transaction.gtkw',
-    'transaction.c',
+    'transaction.cpp',
     'gtkwaverc',
     'sst_exclusion_example.rc',
     install_dir: datadir_gtkwave / 'examples',

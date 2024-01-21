@@ -19,7 +19,7 @@ libgtkwave_tests = [
 foreach test : libgtkwave_tests
     test_executable = executable(
         test,
-        [test + '.c', 'test-util.c'],
+        [test + '.cpp', 'test-util.cpp'],
         dependencies: libgtkwave_dep,
     )
 
