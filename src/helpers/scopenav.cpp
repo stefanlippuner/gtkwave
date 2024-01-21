@@ -107,7 +107,7 @@ static void diff_hier(FILE *fv, struct namehier *nh1, struct namehier *nh2)
 /*
  * output scopedata for a given name if needed, return pointer to name string
  */
-char *fv_output_hier(FILE *fv, char *name)
+char *fv_output_hier(FILE *fv, const char *name)
 {
     char *pnt, *pnt2;
     char *s;

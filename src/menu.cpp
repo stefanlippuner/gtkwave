@@ -41,7 +41,7 @@
 
 #undef WAVE_USE_MENU_BLACKOUTS
 
-static gtkwave_mlist_t menu_items[WV_MENU_NUMITEMS];
+// static gtkwave_mlist_t menu_items[WV_MENU_NUMITEMS];
 static GtkWidget **menu_wlist = NULL;
 
 extern char *gtkwave_argv0_cached; /* for new window */

@@ -1,6 +1,10 @@
 #ifndef	_JRB_H_
 #define	_JRB_H_
 
+#ifdef  __cplusplus
+extern "C" {
+#endif
+
 /* The Jval -- a type that can hold any 8-byte type */
 
 typedef union {
@@ -109,6 +113,10 @@ int jrb_plength(JRB n);       /* returns the # of nodes in path from
 
 #define jrb_rtraverse(ptr, lst) \
   for(ptr = jrb_last(lst); ptr != jrb_nil(lst); ptr = jrb_prev(ptr))
+
+#ifdef  __cplusplus
+}
+#endif
 
 #endif
 

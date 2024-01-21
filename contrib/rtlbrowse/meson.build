@@ -47,3 +47,17 @@ executable(
     include_directories: rtlbrowse_include_directories,
     install: true,
 )
+
+libjrb = shared_library(
+    'gtkwave',
+    sources: 'jrb.c',
+    dependencies: rtlbrowse_dependencies,
+    include_directories: rtlbrowse_include_directories,
+    install: true,
+)
+
+libjrb_dep = declare_dependency(
+    link_with: libjrb,
+    include_directories: '.',
+    dependencies: rtlbrowse_dependencies,
+)

@@ -766,7 +766,7 @@ color_make(gmstrd, "signal-list-gmstrd")
     // clang-format on
 
     // Unnecessary forward declaration to fix clang-format output.
-    static struct rc_entry rcitems[];
+    // static struct rc_entry rcitems[];
 
 /*
  * rc variables...these MUST be in alphabetical order for the bsearch!

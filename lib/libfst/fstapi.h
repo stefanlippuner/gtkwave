@@ -294,44 +294,51 @@ enum fstSupplementalDataType {
 };
 
 
+struct fstHierScope {
+    unsigned char typ; /* FST_ST_MIN ... FST_ST_MAX */
+    const char *name;
+    const char *component;
+    uint32_t name_length;           /* strlen(u.scope.name) */
+    uint32_t component_length;      /* strlen(u.scope.component) */
+};
+
+struct fstHierVar {
+    unsigned char typ; /* FST_VT_MIN ... FST_VT_MAX */
+    unsigned char direction; /* FST_VD_MIN ... FST_VD_MAX */
+    unsigned char svt_workspace; /* zeroed out by FST reader, for client code use */
+    unsigned char sdt_workspace; /* zeroed out by FST reader, for client code use */
+    unsigned int  sxt_workspace; /* zeroed out by FST reader, for client code use */
+    const char *name;
+    uint32_t length;
+    fstHandle handle;
+    uint32_t name_length; /* strlen(u.var.name) */
+    unsigned is_alias : 1;
+};
+
+struct fstHierAttr {
+    unsigned char typ; /* FST_AT_MIN ... FST_AT_MAX */
+    unsigned char subtype; /* from fstMiscType, fstArrayType, fstEnumValueType, fstPackType */
+    const char *name;
+    uint64_t arg; /* number of array elements, struct members, or some other payload (possibly ignored) */
+    uint64_t arg_from_name; /* for when name is overloaded as a variable-length integer (FST_AT_MISC + FST_MT_SOURCESTEM) */
+    uint32_t name_length; /* strlen(u.attr.name) */
+};
+
+
 struct fstHier
 {
-unsigned char htyp;
+    unsigned char htyp;
 
-union {
+    union {
         /* if htyp == FST_HT_SCOPE */
-        struct fstHierScope {
-                unsigned char typ; /* FST_ST_MIN ... FST_ST_MAX */
-                const char *name;
-                const char *component;
-                uint32_t name_length;           /* strlen(u.scope.name) */
-                uint32_t component_length;      /* strlen(u.scope.component) */
-                } scope;
+        struct fstHierScope scope;
 
         /* if htyp == FST_HT_VAR */
-        struct fstHierVar {
-                unsigned char typ; /* FST_VT_MIN ... FST_VT_MAX */
-                unsigned char direction; /* FST_VD_MIN ... FST_VD_MAX */
-                unsigned char svt_workspace; /* zeroed out by FST reader, for client code use */
-                unsigned char sdt_workspace; /* zeroed out by FST reader, for client code use */
-                unsigned int  sxt_workspace; /* zeroed out by FST reader, for client code use */
-                const char *name;
-                uint32_t length;
-                fstHandle handle;
-                uint32_t name_length; /* strlen(u.var.name) */
-                unsigned is_alias : 1;
-                } var;
+        struct fstHierVar  var;
 
         /* if htyp == FST_HT_ATTRBEGIN */
-        struct fstHierAttr {
-                unsigned char typ; /* FST_AT_MIN ... FST_AT_MAX */
-                unsigned char subtype; /* from fstMiscType, fstArrayType, fstEnumValueType, fstPackType */
-                const char *name;
-                uint64_t arg; /* number of array elements, struct members, or some other payload (possibly ignored) */
-                uint64_t arg_from_name; /* for when name is overloaded as a variable-length integer (FST_AT_MISC + FST_MT_SOURCESTEM) */
-                uint32_t name_length; /* strlen(u.attr.name) */
-                } attr;
-        } u;
+        struct fstHierAttr attr;
+    } u;
 };
 
 

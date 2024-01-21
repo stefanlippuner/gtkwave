@@ -3018,7 +3018,7 @@ GwHierarchyIcons *gw_hierarchy_icons_new(void)
     self->interface = gdk_pixbuf_new_from_xpm_data(arrow_inout);
     self->svpackage = gdk_pixbuf_new_from_xpm_data(package);
     self->program = gdk_pixbuf_new_from_xpm_data(application);
-    self->class = gdk_pixbuf_new_from_xpm_data(plugin);
+    self->gclass = gdk_pixbuf_new_from_xpm_data(plugin);
 
     /* VHDL */
     self->design = gdk_pixbuf_new_from_xpm_data(database);
@@ -3056,7 +3056,7 @@ GdkPixbuf *gw_hierarchy_icons_get(GwHierarchyIcons *self, guint tree_kind)
         case GW_TREE_KIND_VCD_ST_GENERATE:  return self->generatefor; // same as GW_TREE_KIND_VHDL_ST_GENFOR
         case GW_TREE_KIND_VCD_ST_STRUCT:    return self->block;       // same as GW_TREE_KIND_VHDL_ST_BLOCK
         case GW_TREE_KIND_VCD_ST_UNION:     return self->instance;    // same as GW_TREE_KIND_VHDL_ST_INSTANCE
-        case GW_TREE_KIND_VCD_ST_CLASS:     return self->class;
+        case GW_TREE_KIND_VCD_ST_CLASS:     return self->gclass;
         case GW_TREE_KIND_VCD_ST_INTERFACE: return self->interface;
         case GW_TREE_KIND_VCD_ST_PACKAGE:   return self->svpackage;
         case GW_TREE_KIND_VCD_ST_PROGRAM:   return self->program;
@@ -3078,7 +3078,7 @@ GdkPixbuf *gw_hierarchy_icons_get(GwHierarchyIcons *self, guint tree_kind)
         case GW_TREE_KIND_VHDL_ST_ARCHITECTURE: return self->module; // same as GW_TREE_KIND_VCD_ST_MODULE
         case GW_TREE_KIND_VHDL_ST_FUNCTION:     return self->function; // same as GW_TREE_KIND_VCD_ST_FUNCTION
         case GW_TREE_KIND_VHDL_ST_PROCESS:      return self->task; // same as GW_TREE_KIND_VCD_ST_TASK
-        case GW_TREE_KIND_VHDL_ST_PROCEDURE:    return self->class; // same as GW_TREE_KIND_VCD_ST_CLASS
+        case GW_TREE_KIND_VHDL_ST_PROCEDURE:    return self->gclass; // same as GW_TREE_KIND_VCD_ST_CLASS
         case GW_TREE_KIND_VHDL_ST_RECORD:       return self->record;
         case GW_TREE_KIND_VHDL_ST_GENERATE:     return self->generate;
 

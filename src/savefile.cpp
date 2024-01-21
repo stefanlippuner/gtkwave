@@ -943,7 +943,7 @@ int parsewavline(char *w, char *alias, int depth)
     char *w2;
     GwNode *nexp;
     unsigned int rows = 0;
-    char *prefix, *suffix, *new;
+    char *prefix, *suffix, *newc;
     char *prefix_init, *w2_init;
     unsigned int mode;
     int current_grp_depth = -1;
@@ -973,11 +973,11 @@ int parsewavline(char *w, char *alias, int depth)
 
     prefix = (char *)g_alloca(len + 1);
     suffix = (char *)g_alloca(len + 1);
-    new = (char *)g_alloca(len + 1);
-    memset(new, 0, len + 1); /* scan-build */
+    newc = (char *)g_alloca(len + 1);
+    memset(newc, 0, len + 1); /* scan-build */
 
     prefix_init = prefix;
-    w2_init = new;
+    w2_init = newc;
     mode = 0; /* 0 = before "{", 1 = after "{", 2 = after "}" or " " */
 
     while (*w2) {
@@ -992,18 +992,18 @@ int parsewavline(char *w, char *alias, int depth)
         } else if ((mode == 0) && (*w2 == ' ')) {
             /* strcpy(prefix, ""); */
             *(prefix) = '\0';
-            strcpy(new, w2);
+            strcpy(newc, w2);
             mode = 2;
             w2++;
-            new ++;
+            newc ++;
         } else {
-            strcpy(new, w2);
+            strcpy(newc, w2);
             if (mode != 2) {
                 strcpy(prefix, w2);
                 prefix++;
             }
             w2++;
-            new ++;
+            newc ++;
         }
     }
 
@@ -1791,7 +1791,7 @@ int parsewavline_lx2(char *w, char *alias, int depth)
     int i;
     int len;
     char *w2;
-    char *prefix, *suffix, *new;
+    char *prefix, *suffix, *newc;
     char *prefix_init, *w2_init;
     unsigned int mode;
 
@@ -1820,11 +1820,11 @@ int parsewavline_lx2(char *w, char *alias, int depth)
 
     prefix = (char *)g_alloca(len + 1);
     suffix = (char *)g_alloca(len + 1);
-    new = (char *)g_alloca(len + 1);
-    new[0] = 0; /* scan-build : in case there are weird mode problems */
+    newc = (char *)g_alloca(len + 1);
+    newc[0] = 0; /* scan-build : in case there are weird mode problems */
 
     prefix_init = prefix;
-    w2_init = new;
+    w2_init = newc;
     mode = 0; /* 0 = before "{", 1 = after "{", 2 = after "}" or " " */
 
     while (*w2) {
@@ -1837,18 +1837,18 @@ int parsewavline_lx2(char *w, char *alias, int depth)
             w2++;
         } else if ((mode == 0) && (*w2 == ' ')) {
             *(prefix) = '\0';
-            strcpy(new, w2);
+            strcpy(newc, w2);
             mode = 2;
             w2++;
-            new ++;
+            newc ++;
         } else {
-            strcpy(new, w2);
+            strcpy(newc, w2);
             if (mode != 2) {
                 strcpy(prefix, w2);
                 prefix++;
             }
             w2++;
-            new ++;
+            newc ++;
         }
     }
 

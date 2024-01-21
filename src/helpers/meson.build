@@ -19,7 +19,8 @@ foreach helper : helpers
     ]
 
     if helper in ['evcd2vcd', 'vcd2fst']
-        sources += '../../contrib/rtlbrowse/jrb.c'
+        dependencies += libjrb_dep
+        # sources += '../../contrib/rtlbrowse/jrb.c'
     endif
     if helper in ['vcd2lxt']
         sources += 'v2l_debug.cpp'

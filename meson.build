@@ -200,6 +200,8 @@ foreach arg: test_warning_args
     endif
 endforeach
 
+add_global_arguments('-fpermissive', language : 'cpp')
+
 # Set excutable rpaths for non standard prefixes
 
 if get_option('set_rpath').enabled() or (get_option('set_rpath').auto() and get_option('prefix') != '/usr')

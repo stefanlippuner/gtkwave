@@ -29,7 +29,7 @@ typedef struct
     GdkPixbuf *interface;
     GdkPixbuf *svpackage;
     GdkPixbuf *program;
-    GdkPixbuf *class;
+    GdkPixbuf *gclass;
     GdkPixbuf *record;
     GdkPixbuf *generate;
     GdkPixbuf *design;

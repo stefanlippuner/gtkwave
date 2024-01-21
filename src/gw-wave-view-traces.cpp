@@ -2,6 +2,7 @@
 #include <gtk/gtk.h>
 #include "cairo.h"
 #include "gw-wave-view.h"
+#include "gw-wave-view-traces.h"
 #include "gw-wave-view-private.h"
 #include "globals.h"
 #include "signal_list.h"

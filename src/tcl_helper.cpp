@@ -17,6 +17,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <ctype.h>
+#include <glib.h>
 #include "gtk23compat.h"
 #include "analyzer.h"
 #include "tree.h"
@@ -2451,7 +2452,7 @@ int process_url_list(char *s)
 
     if (url_list) {
         if (url_cnt > 2) {
-            qsort(url_list, url_cnt, sizeof(struct gchar *), uri_cmp);
+            qsort(url_list, url_cnt, sizeof(gchar *), uri_cmp);
         } else if (url_cnt == 2) /* in case there are only 2 files, make the savefile last */
         {
             char *d1, *d2;
@@ -2714,7 +2715,7 @@ int gtkwaveInterpreterInit(Tcl_Interp *interp)
 
     strcpy(commandName, "gtkwave::");
 
-    Tcl_Namespace *namespace = Tcl_CreateNamespace(interp, "gtkwave", NULL, NULL);
+    Tcl_Namespace *t_namespace = Tcl_CreateNamespace(interp, "gtkwave", NULL, NULL);
 
     ife = retrieve_menu_items_array(&num_menu_items);
     for (i = 0; i < num_menu_items; i++) {
@@ -2744,7 +2745,7 @@ int gtkwaveInterpreterInit(Tcl_Interp *interp)
                              (ClientData)NULL,
                              (Tcl_CmdDeleteProc *)NULL);
 
-        Tcl_Export(interp, namespace, gtkwave_commands[i].cmdstr, 0);
+        Tcl_Export(interp, t_namespace, gtkwave_commands[i].cmdstr, 0);
     }
 
     declare_tclcb_variables(interp);
@@ -2891,7 +2892,7 @@ void make_tcl_interpreter(char *argv[])
 
     strcpy(commandName, "gtkwave::");
 
-    Tcl_Namespace *namespace = Tcl_CreateNamespace(GLOBALS->interp, "gtkwave", NULL, NULL);
+    Tcl_Namespace *t_namespace = Tcl_CreateNamespace(GLOBALS->interp, "gtkwave", NULL, NULL);
 
     ife = retrieve_menu_items_array(&num_menu_items);
     for (i = 0; i < num_menu_items; i++) {
@@ -2921,7 +2922,7 @@ void make_tcl_interpreter(char *argv[])
                              (ClientData)NULL,
                              (Tcl_CmdDeleteProc *)NULL);
 
-        Tcl_Export(GLOBALS->interp, namespace, gtkwave_commands[i].cmdstr, 0);
+        Tcl_Export(GLOBALS->interp, t_namespace, gtkwave_commands[i].cmdstr, 0);
     }
 
     declare_tclcb_variables(GLOBALS->interp);
